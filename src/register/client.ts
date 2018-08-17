@@ -18,8 +18,13 @@ class ClientManager {
   removeClient(socket: socket.Socket, areaID: string) {
     this.clientSet[areaID] = this.clientSet[areaID] && this.clientSet[areaID].filter(t => t.socket !== socket)
   }
+  update(areaID: string) {
+    this.clientSet[areaID] && this.clientSet[areaID].forEach(t => {
+      t.update()
+    })
+  }
 }
 
-const clientmMnager = new ClientManager()
+const clientmManager = new ClientManager()
 
-export default clientmMnager
+export default clientmManager

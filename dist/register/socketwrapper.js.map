@@ -1,0 +1,1 @@
+{"version":3,"file":"socketwrapper.js","sourceRoot":"","sources":["../../src/register/socketwrapper.ts"],"names":[],"mappings":";;AAEA,MAAM,aAAa;IAGjB,YAAY,MAAqB,EAAE,MAAc;QAE/C,IAAI,CAAC,MAAM,GAAG,MAAM,CAAA;QACpB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAA;IACtB,CAAC;IACD,MAAM;QACJ,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,QAAQ,EAAE,IAAI,IAAI,EAAE,CAAC,CAAA;IACxC,CAAC;CACF;AAED,kBAAe,aAAa,CAAA"}

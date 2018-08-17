@@ -4,35 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const koa_1 = __importDefault(require("koa"));
-const socket_io_1 = __importDefault(require("socket.io"));
-const http_1 = __importDefault(require("http"));
+const register_1 = __importDefault(require("./register/register"));
+const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
+const config_1 = __importDefault(require("./router/config"));
 const app = new koa_1.default();
-let server = http_1.default.createServer(app.callback());
-let io = socket_io_1.default(server);
-let sockets = [];
-let config = 0;
-app.use(async (ctx) => {
-    ctx.body = `<html><head><script src="https://cdn.jsdelivr.net/npm/socket.io-client@2.1.1/dist/socket.io.js"></script></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">hello</pre></body></html>`;
-    if (ctx.path === '/add') {
-        config++;
-        sockets.forEach(s => {
-            s.emit('change', config);
-        });
-    }
+app.use(koa_bodyparser_1.default());
+app.use(async (ctx, next) => {
+    ctx.body = ctx.body = `<html><head><script src="https://cdn.jsdelivr.net/npm/socket.io-client@2.1.1/dist/socket.io.js"></script></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">hello</pre></body></html>`;
+    await next();
 });
-io.of('/registry').on('connection', (socket) => {
-    //socket.emit('get')
-    console.log('on connect');
-    sockets.push(socket);
-    socket.on('get', (arg) => {
-        return +new Date();
-    });
-    socket.on('disconnect', () => {
-        sockets = sockets.filter(t => t !== socket);
-    });
-    setTimeout(() => {
-        socket.emit('post', { d: 1 });
-    }, 5000);
-});
+app.use(config_1.default.routes());
+app.use(config_1.default.allowedMethods());
+let server = register_1.default(app);
 server.listen('41892');
 //# sourceMappingURL=app.js.map

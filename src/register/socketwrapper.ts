@@ -9,7 +9,7 @@ class SocketWrapper {
     this.areaID = areaID
   }
   update() {
-    this.socket.emit('update', {})
+    this.socket.emit('update', new Date())
   }
 }
 
