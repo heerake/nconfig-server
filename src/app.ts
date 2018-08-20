@@ -2,8 +2,18 @@ import Koa from 'koa'
 import register from './register/register'
 import bodyParser from 'koa-bodyparser'
 import configRouter from './router/config'
+import render from 'koa-ejs'
+import path from 'path'
 
 const app = new Koa()
+
+render(app, {
+  root: path.join(__dirname, '../views'),
+  layout: 'template',
+  viewExt: 'html',
+  cache: false,
+  debug: true
+});
 
 app.use(bodyParser())
 

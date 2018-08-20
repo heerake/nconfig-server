@@ -4,15 +4,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const koa_router_1 = __importDefault(require("koa-router"));
-const client_1 = __importDefault(require("../register/client"));
+const manager_1 = __importDefault(require("../data/manager"));
+console.log('areaManager');
+console.log(manager_1.default);
 let router = new koa_router_1.default({
     prefix: '/config'
 });
-router.get('/', async (ctx) => {
-    ctx.body = '123';
+router.get('/', async (ctx, next) => {
+    let areas = manager_1.default.getAllAreas();
+    await ctx.render('config/all');
+    await next();
 });
-router.get('/:id', async (ctx) => {
-    client_1.default.update(ctx.params.id);
+/**
+ * body = {
+ *  id
+ *  env
+ *  key
+ *  value
+ * }
+ */
+router.post('/area/additem', async (ctx, next) => {
+    console.log(manager_1.default);
+    console.log(manager_1.default.getAllAreas());
+    console.log(manager_1.default.set);
+    let body = ctx.request.body;
+    manager_1.default.set(body.id, body.env, body.key, body.value);
+    await next();
 });
+// router.post('/client/registry', async (ctx, next) => {
+// })
 exports.default = router;
 //# sourceMappingURL=config.js.map

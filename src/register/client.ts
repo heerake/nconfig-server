@@ -1,5 +1,6 @@
 import socket from 'socket.io'
-import SocketWrapper from './socketwrapper'
+import SocketWrapper, { getSocketType } from './socketwrapper'
+import Env from '../data/env'
 
 interface ClientSet {
   [areaID: string]: SocketWrapper[]
@@ -10,21 +11,27 @@ class ClientManager {
   constructor() {
     this.clientSet = {}
   }
-  addClient(socket: socket.Socket, areaID: string) {
-    this.clientSet[areaID] = this.clientSet[areaID] || []
+  addClient(socket: socket.Socket, areaID: string, env: Env) {
+    let socketType = getSocketType(areaID, env)
+    this.clientSet[socketType] = this.clientSet[socketType] || []
 
-    this.clientSet[areaID].push(new SocketWrapper(socket, areaID))
+    if (this.clientSet[socketType].every(t => t.socket.id !== socket.id)) {
+      this.clientSet[socketType].push(new SocketWrapper(socket, areaID, env))
+    }
   }
-  removeClient(socket: socket.Socket, areaID: string) {
-    this.clientSet[areaID] = this.clientSet[areaID] && this.clientSet[areaID].filter(t => t.socket !== socket)
+  removeClient(socket: socket.Socket, areaID: string, env: Env) {
+    let socketType = getSocketType(areaID, env)
+    this.clientSet[socketType] = this.clientSet[socketType] && this.clientSet[socketType].filter(t => t.socket !== socket)
   }
-  update(areaID: string) {
-    this.clientSet[areaID] && this.clientSet[areaID].forEach(t => {
-      t.update()
+  update(areaID: string, env: Env, key: string, value: string) {
+    let socketType = getSocketType(areaID, env)
+
+    this.clientSet[socketType] && this.clientSet[socketType].forEach(t => {
+      t.update(key, value)
     })
   }
 }
 
-const clientmManager = new ClientManager()
+const clientManager = new ClientManager()
 
-export default clientmManager
+export default clientManager

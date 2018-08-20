@@ -10,14 +10,15 @@ function default_1(app) {
     let server = http_1.default.createServer(app.callback());
     let io = socket_io_1.default(server);
     io.of('/registry').on('connection', (socket) => {
-        let areaID;
+        let areaID, env;
         console.log('registry connect');
-        socket.on('init', id => {
-            areaID = id;
-            client_1.default.addClient(socket, areaID);
+        socket.on('init', data => {
+            areaID = data.id;
+            env = data.env;
+            client_1.default.addClient(socket, areaID, env);
         });
         socket.on('disconnect', () => {
-            client_1.default.removeClient(socket, areaID);
+            client_1.default.removeClient(socket, areaID, env);
         });
     });
     return server;
