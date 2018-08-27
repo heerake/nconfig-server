@@ -1,18 +1,34 @@
 import Router from 'koa-router'
 import clientManager from '../register/client'
 import areaManager from '../data/manager'
+import Env from '../data/env'
 
 console.log('areaManager')
 console.log(areaManager)
 
 let router = new Router({
-  prefix: '/config'
+  prefix: '/console'
 })
 
-router.get('/', async (ctx, next) => {
+router.get('/:areaId', async (ctx, next) => {
   let areas = areaManager.getAllAreas()
+  let curArea = areas[ctx.params.areaId]
+  let curEnv = curArea.getEnv(ctx.params.env || Env.Dev)
 
-  await ctx.render('config/all')
+  await (ctx as any).render('console/index', {
+    pairs: curEnv
+  })
+  await next()
+})
+
+router.use(['/:areaId', '/:areaId/:env'], async (ctx, next) => {
+  let areas = areaManager.getAllAreas()
+  let curArea = areas[ctx.params.areaId]
+  let curEnv = curArea.getEnv(ctx.params.env || Env.Dev)
+
+  await (ctx as any).render('console/index', {
+    pairs: curEnv
+  })
   await next()
 })
 

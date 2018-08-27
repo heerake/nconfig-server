@@ -1,7 +1,7 @@
 import ValueItem from './valueitem'
 
 class Pair {
-  private key: string
+  public key: string
   private values: ValueItem[]
 
   constructor(key: string) {
@@ -13,7 +13,8 @@ class Pair {
     this.values.push(newValueItem)
   }
   get() {
-    return this.values[this.values.length - 1]
+    let item = this.values[this.values.length - 1]
+    return item && item.value
   }
 }
 

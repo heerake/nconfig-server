@@ -33,5 +33,7 @@ class AreaManager {
 let manager = new AreaManager()
 
 manager.addArea('111')
+manager.set('111', Env.Dev, 'test', '123')
+manager.set('111', Env.Dev, 'test2', '1232')
 
 export default manager
