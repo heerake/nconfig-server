@@ -1,5 +1,5 @@
 import Area from './area'
-import Env from './env'
+import EnvType from './env'
 import clientManager from '../register/client'
 
 class AreaManager {
@@ -13,12 +13,19 @@ class AreaManager {
   getArea(id: string) {
     return this.areas[id]
   }
-  get(id: string, env: Env, key: string) {
+  deleteArea(id: string) {
+    let area = this.areas[id]
+
+    delete this.areas[id]
+
+    return area
+  }
+  get(id: string, env: EnvType, key: string) {
     let area = this.getArea(id)
 
     return area.get(env, key)
   }
-  set(id: string, env: Env, key: string, value: string) {
+  set(id: string, env: EnvType, key: string, value: string) {
     let area = this.getArea(id)
 
     area.set(env, key, value)
@@ -33,7 +40,7 @@ class AreaManager {
 let manager = new AreaManager()
 
 manager.addArea('111')
-manager.set('111', Env.Dev, 'test', '123')
-manager.set('111', Env.Dev, 'test2', '1232')
+manager.set('111', EnvType.Dev, 'test', '123')
+manager.set('111', EnvType.Dev, 'test2', '1232')
 
 export default manager

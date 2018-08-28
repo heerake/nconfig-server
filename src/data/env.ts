@@ -1,6 +1,15 @@
-enum Env {
+enum EnvType {
   Prd = 'prd',
   Dev = 'dev'
 }
 
-export default Env
+class Env {
+  envType: EnvType
+
+  constructor(envType: EnvType) {
+    this.envType = envType
+  }
+}
+
+export { Env }
+export default EnvType

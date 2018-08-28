@@ -3,6 +3,8 @@ import register from './register/register'
 import bodyParser from 'koa-bodyparser'
 import configRouter from './router/console'
 import areaRouter from './router/area'
+import envRouter from './router/env'
+import keyRouter from './router/key'
 import render from 'koa-ejs'
 import path from 'path'
 
@@ -28,6 +30,12 @@ app.use(configRouter.allowedMethods())
 
 app.use(areaRouter.routes())
 app.use(areaRouter.allowedMethods())
+
+app.use(envRouter.routes())
+app.use(envRouter.allowedMethods())
+
+app.use(keyRouter.routes())
+app.use(keyRouter.allowedMethods())
 
 let server = register(app)
 

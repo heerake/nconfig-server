@@ -18,6 +18,10 @@
         })
       })
 
+      s.on('getalldata', (data) => {
+        console.log(data)
+      })
+
       s.on('update', (data) => {
         console.log('update!')
         console.log(data)

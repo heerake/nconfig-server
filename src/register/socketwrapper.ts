@@ -1,11 +1,11 @@
 import socket from 'socket.io'
-import Env from '../data/env'
+import EnvType from '../data/env'
 
 class SocketWrapper {
   socket: socket.Socket
   areaID: string
-  env: Env
-  constructor(socket: socket.Socket, areaID: string, env: Env) {
+  env: EnvType
+  constructor(socket: socket.Socket, areaID: string, env: EnvType) {
 
     this.socket = socket
     this.areaID = areaID
@@ -16,7 +16,7 @@ class SocketWrapper {
   }
 }
 
-function getSocketType(areaID: string | SocketWrapper, env: Env): string {
+function getSocketType(areaID: string | SocketWrapper, env: EnvType): string {
   if (areaID instanceof SocketWrapper) {
     return getSocketType(areaID.areaID, areaID.env)
   }
