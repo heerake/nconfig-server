@@ -3,14 +3,14 @@ import http from 'http'
 import Koa from 'koa'
 import clientManager from './client'
 import areaManager from '../data/manager'
-import EnvType from '../data/env';
+import EnvEnum from '../enum/EnvEnum'
 
 export default function (app: Koa) {
   let server = http.createServer(app.callback())
   let io = socket(server)
 
   io.of('/registry').on('connection', (socket) => {
-    let areaID: string, env: EnvType
+    let areaID: string, env: EnvEnum
     console.log('registry connect')
 
     socket.on('init', data => {

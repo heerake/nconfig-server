@@ -1,4 +1,4 @@
-import EnvType from './env'
+import EnvEnum from '../enum/EnvEnum'
 import Pair from './pair'
 
 class Area {
@@ -9,17 +9,17 @@ class Area {
     this.id = areaID
 
     this.env = {
-      [EnvType.Dev]: {},
-      [EnvType.Prd]: {}
+      [EnvEnum.Dev]: {},
+      [EnvEnum.Prd]: {}
     }
   }
-  getEnv(envType: EnvType) {
+  getEnv(envType: EnvEnum) {
     return this.env[envType]
   }
-  get(env: EnvType, key: string) {
+  getValue(env: EnvEnum, key: string) {
     return this.getEnv(env)[key].get()
   }
-  set(env: EnvType, key: string, value: string) {
+  setValue(env: EnvEnum, key: string, value: string) {
     (this.getEnv(env)[key] = this.getEnv(env)[key] || new Pair(key)).set(value)
   }
   getAllEnv() {

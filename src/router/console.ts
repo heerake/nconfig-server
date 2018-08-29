@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import clientManager from '../register/client'
 import areaManager from '../data/manager'
-import EnvType from '../data/env'
+import EnvEnum from '../enum/EnvEnum'
 
 let router = new Router({
   prefix: '/console'
@@ -10,7 +10,7 @@ let router = new Router({
 router.get('/:areaId', async (ctx, next) => {
   let areas = areaManager.getAllAreas()
   let curArea = areas[ctx.params.areaId]
-  let curEnv = curArea.getEnv(ctx.params.env || EnvType.Dev)
+  let curEnv = curArea.getEnv(ctx.params.env || EnvEnum.Dev)
 
   await (ctx as any).render('console/index', {
     pairs: curEnv
@@ -21,7 +21,7 @@ router.get('/:areaId', async (ctx, next) => {
 router.use(['/:areaId', '/:areaId/:env'], async (ctx, next) => {
   let areas = areaManager.getAllAreas()
   let curArea = areas[ctx.params.areaId]
-  let curEnv = curArea.getEnv(ctx.params.env || EnvType.Dev)
+  let curEnv = curArea.getEnv(ctx.params.env || EnvEnum.Dev)
 
   await (ctx as any).render('console/index', {
     pairs: curEnv

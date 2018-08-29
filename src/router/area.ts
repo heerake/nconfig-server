@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import clientManager from '../register/client'
 import areaManager from '../data/manager'
-import EnvType from '../data/env'
+
 
 let router = new Router({
   prefix: '/area'

@@ -1,6 +1,6 @@
 import socket from 'socket.io'
 import SocketWrapper, { getSocketType } from './socketwrapper'
-import EnvType from '../data/env'
+import EnvEnum from '../enum/EnvEnum'
 
 interface ClientSet {
   [areaID: string]: SocketWrapper[]
@@ -11,7 +11,7 @@ class ClientManager {
   constructor() {
     this.clientSet = {}
   }
-  addClient(socket: socket.Socket, areaID: string, env: EnvType) {
+  addClient(socket: socket.Socket, areaID: string, env: EnvEnum) {
     let socketType = getSocketType(areaID, env)
     this.clientSet[socketType] = this.clientSet[socketType] || []
 
@@ -19,11 +19,11 @@ class ClientManager {
       this.clientSet[socketType].push(new SocketWrapper(socket, areaID, env))
     }
   }
-  removeClient(socket: socket.Socket, areaID: string, env: EnvType) {
+  removeClient(socket: socket.Socket, areaID: string, env: EnvEnum) {
     let socketType = getSocketType(areaID, env)
     this.clientSet[socketType] = this.clientSet[socketType] && this.clientSet[socketType].filter(t => t.socket !== socket)
   }
-  update(areaID: string, env: EnvType, key: string, value: string) {
+  update(areaID: string, env: EnvEnum, key: string, value: string) {
     let socketType = getSocketType(areaID, env)
 
     this.clientSet[socketType] && this.clientSet[socketType].forEach(t => {
